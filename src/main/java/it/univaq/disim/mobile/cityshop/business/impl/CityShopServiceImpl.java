@@ -1,8 +1,15 @@
 package it.univaq.disim.mobile.cityshop.business.impl;
 
 import it.univaq.disim.mobile.cityshop.business.CityShopService;
+import it.univaq.disim.mobile.cityshop.business.domain.Brand;
+import it.univaq.disim.mobile.cityshop.business.domain.Categoria;
+import it.univaq.disim.mobile.cityshop.business.domain.Negozio;
+import it.univaq.disim.mobile.cityshop.business.domain.Prodotto;
 import it.univaq.disim.mobile.cityshop.business.domain.Session;
 import it.univaq.disim.mobile.cityshop.business.domain.Utente;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +23,12 @@ public class CityShopServiceImpl implements CityShopService {
 
     @Autowired
     private UtenteRepository userRepository;
+    
+    @Autowired
+    private NegozioRepository storeRepository;
+    
+    @Autowired
+    private ProdottoRepository productRepository;
 
     @Override
     public Session login(String mail, String password) {
@@ -64,5 +77,54 @@ public class CityShopServiceImpl implements CityShopService {
      
         }
 
+    }
+
+    @Override
+    public List<Negozio> getStores(String token, float latitude, float longitude) {
+        Session session = sessionRepository.findByToken(token);
+        if (session != null) {
+            float difference = 0.03f;
+            Utente user = session.getUser();
+            Set<Categoria> category = user.getCatecorie();
+            Set<Brand> brands = user.getBrands();
+            if (category.isEmpty()){
+                Categoria cat = new Categoria();
+                cat.setNome("notSelected");
+                cat.setFoto("notSelected");
+                category.add(cat);
+            }
+            
+            if (brands.isEmpty()){
+                Brand brand = new Brand();
+                brand.setNome("notSelected");
+                brand.setFoto("notSelected");
+                brands.add(brand);
+            }
+            List<Negozio> store = storeRepository.findBy(
+                latitude-difference, 
+                latitude+difference, 
+                longitude-difference, 
+                longitude+difference,
+                category,
+                brands
+            );
+            return store;
+        }
+        return null;
+    }
+
+    @Override
+    public Negozio getStore(int id) {
+        return storeRepository.findById(id);
+    }
+
+    @Override
+    public List<Prodotto> getProducts(Negozio store) {
+        return productRepository.findByNegozio(store);
+    }
+
+    @Override
+    public Prodotto getProduct(int id) {
+        return productRepository.findById(id);
     }
 }

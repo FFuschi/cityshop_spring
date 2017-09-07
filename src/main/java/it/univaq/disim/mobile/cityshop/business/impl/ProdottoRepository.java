@@ -5,7 +5,9 @@
  */
 package it.univaq.disim.mobile.cityshop.business.impl;
 
+import it.univaq.disim.mobile.cityshop.business.domain.Negozio;
 import it.univaq.disim.mobile.cityshop.business.domain.Prodotto;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -14,4 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ProdottoRepository extends JpaRepository<Prodotto, Long> {
     
+    List<Prodotto> findByNegozio(Negozio store);
+    
+    Prodotto findById(int id);
 }

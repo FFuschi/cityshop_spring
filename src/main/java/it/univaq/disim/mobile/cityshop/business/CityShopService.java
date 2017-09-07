@@ -6,7 +6,10 @@
 package it.univaq.disim.mobile.cityshop.business;
 
 import it.univaq.disim.mobile.cityshop.business.domain.Session;
+import it.univaq.disim.mobile.cityshop.business.domain.Negozio;
+import it.univaq.disim.mobile.cityshop.business.domain.Prodotto;
 import it.univaq.disim.mobile.cityshop.business.domain.Utente;
+import java.util.List;
 
 /**
  *
@@ -21,5 +24,13 @@ public interface CityShopService {
     void createUser(Utente user);
 
     void updateUser(String token, Utente user);
+    
+    List<Negozio> getStores(String token, float latitude, float longitude);
+    
+    Negozio getStore(int id);
+    
+    List<Prodotto> getProducts(Negozio store);
+    
+    Prodotto getProduct(int id);
     
 }
