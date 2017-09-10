@@ -7,10 +7,12 @@ import it.univaq.disim.mobile.cityshop.business.domain.Negozio;
 import it.univaq.disim.mobile.cityshop.business.domain.Prodotto;
 import it.univaq.disim.mobile.cityshop.business.domain.Session;
 import it.univaq.disim.mobile.cityshop.business.domain.Utente;
-import java.util.HashSet;
+import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,12 @@ public class CityShopServiceImpl implements CityShopService {
     
     @Autowired
     private ProdottoRepository productRepository;
+    
+    @Autowired
+    private CategoriaRepository categoryRepository;
+    
+    @Autowired
+    private BrandRepository brandRepository;
 
     @Override
     public Session login(String mail, String password) {
@@ -85,7 +93,7 @@ public class CityShopServiceImpl implements CityShopService {
         if (session != null) {
             float difference = 0.03f;
             Utente user = session.getUser();
-            Set<Categoria> category = user.getCatecorie();
+            Set<Categoria> category = user.getCategorie();
             Set<Brand> brands = user.getBrands();
             if (category.isEmpty()){
                 Categoria cat = new Categoria();
@@ -126,5 +134,75 @@ public class CityShopServiceImpl implements CityShopService {
     @Override
     public Prodotto getProduct(int id) {
         return productRepository.findById(id);
+    }
+
+    @Override
+    public List<Categoria> getUserCategories(String token) {
+        Session session = sessionRepository.findByToken(token);
+        if (session != null) {
+            List<Categoria> temp = categoryRepository.findForUser(session.getUser().getEmail());
+            List<Categoria> returnList = new ArrayList();
+            int i = 0;
+            for(Categoria item: temp){
+                if(i<3)
+                    returnList.add(item);
+                i++;
+            }
+            return returnList;
+        } 
+        return null;
+    }
+
+    @Override
+    public List<Categoria> getStoreCategories(int id) {
+        List<Categoria> temp = categoryRepository.findForStore(id);
+        List<Categoria> returnList = new ArrayList();
+        int i = 0;
+        for(Categoria item: temp){
+            if(i<3)
+                returnList.add(item);
+            i++;
+        }
+        return returnList;
+    }
+
+    @Override
+    public Categoria getProductCategory(int id) {
+        return categoryRepository.findForProduct(id);
+    }
+    
+    @Override
+    public List<Brand> getUserBrands(String token) {
+        Session session = sessionRepository.findByToken(token);
+        if (session != null) {
+            List<Brand> temp = brandRepository.findForUser(session.getUser().getEmail());
+            List<Brand> returnList = new ArrayList();
+            int i = 0;
+            for(Brand item: temp){
+                if(i<3)
+                    returnList.add(item);
+                i++;
+            }
+            return returnList;
+        } 
+        return null;
+    }
+
+    @Override
+    public List<Brand> getStoreBrands(int id) {
+        List<Brand> temp = brandRepository.findForStore(id);
+        List<Brand> returnList = new ArrayList();
+        int i = 0;
+        for(Brand item: temp){
+            if(i<3)
+                returnList.add(item);
+            i++;
+        }
+        return returnList;
+    }
+
+    @Override
+    public Brand getProductBrand(int id) {
+        return brandRepository.findForProduct(id);
     }
 }

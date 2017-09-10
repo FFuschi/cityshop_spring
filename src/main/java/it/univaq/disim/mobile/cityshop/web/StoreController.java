@@ -6,8 +6,9 @@
 package it.univaq.disim.mobile.cityshop.web;
 
 import it.univaq.disim.mobile.cityshop.business.CityShopService;
+import it.univaq.disim.mobile.cityshop.business.domain.Brand;
+import it.univaq.disim.mobile.cityshop.business.domain.Categoria;
 import it.univaq.disim.mobile.cityshop.business.domain.Negozio;
-import it.univaq.disim.mobile.cityshop.business.domain.Prodotto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,29 +52,28 @@ public class StoreController {
         
     }
     
-    @PostMapping("/products")
-    public Response getProducts(@RequestBody Negozio n) {
-        Negozio store = service.getStore(n.getId());
-        if (store!= null){
-           Response<List<Prodotto>> result = new Response<>(true, Response.DEFAULT_RESPONSE_OK.getMessage());
-            result.setData(service.getProducts(store));
+    @PostMapping("/store/categories")
+    public Response getCategoryStore(@RequestBody Negozio n) {
+        List<Categoria> categories = service.getStoreCategories(n.getId());
+        if (categories!= null){
+           Response<List<Categoria>> result = new Response<>(true, Response.DEFAULT_RESPONSE_OK.getMessage());
+            result.setData(categories);
             return result; 
         } else {
             return Response.DEFAULT_RESPONSE_KO;
         }
-        
     }
     
-    @PostMapping("/product")
-    public Response getProduct(@RequestBody Prodotto p) {
-        Prodotto product = service.getProduct(p.getId());
-        if (product!= null){
-           Response<Prodotto> result = new Response<>(true, Response.DEFAULT_RESPONSE_OK.getMessage());
-            result.setData(product);
+    @PostMapping("/store/brands")
+    public Response getBrandStore(@RequestBody Negozio n) {
+        List<Brand> brands = service.getStoreBrands(n.getId());
+        if (brands!= null){
+           Response<List<Brand>> result = new Response<>(true, Response.DEFAULT_RESPONSE_OK.getMessage());
+            result.setData(brands);
             return result; 
         } else {
             return Response.DEFAULT_RESPONSE_KO;
         }
-        
     }
+   
 }

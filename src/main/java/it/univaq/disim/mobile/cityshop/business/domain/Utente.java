@@ -48,7 +48,7 @@ public class Utente {
     @JsonIgnore
     @ManyToMany(cascade=CascadeType.ALL)  
     @JoinTable(name="user_category", joinColumns={@JoinColumn(name="email")}, inverseJoinColumns={@JoinColumn(name="name")}) 
-    private Set<Categoria> catecorie = new HashSet<Categoria>(0); 
+    private Set<Categoria> categorie = new HashSet<Categoria>(0); 
     @JsonIgnore
     @ManyToMany(cascade=CascadeType.ALL)  
     @JoinTable(name="user_brand", joinColumns={@JoinColumn(name="email")}, inverseJoinColumns={@JoinColumn(name="name")}) 
@@ -94,12 +94,12 @@ public class Utente {
         this.foto = foto;
     }
     
-    public Set<Categoria> getCatecorie() {
-        return catecorie;
+    public Set<Categoria> getCategorie() {
+        return categorie;
     }
 
-    public void setCatecorie(Set<Categoria> catecorie) {
-        this.catecorie = catecorie;
+    public void setCategorie(Set<Categoria> catecorie) {
+        this.categorie = catecorie;
     }
     
     public Set<Brand> getBrands() {
@@ -118,7 +118,7 @@ public class Utente {
         hash = 89 * hash + Objects.hashCode(this.cognome);
         hash = 89 * hash + Objects.hashCode(this.password);
         hash = 89 * hash + Objects.hashCode(this.foto);
-        hash = 89 * hash + Objects.hashCode(this.catecorie);
+        hash = 89 * hash + Objects.hashCode(this.categorie);
         hash = 89 * hash + Objects.hashCode(this.brands);
         return hash;
     }
@@ -150,7 +150,7 @@ public class Utente {
         if (!Objects.equals(this.foto, other.foto)) {
             return false;
         }
-        if (!Objects.equals(this.catecorie, other.catecorie)) {
+        if (!Objects.equals(this.categorie, other.categorie)) {
             return false;
         }
         if (!Objects.equals(this.brands, other.brands)) {

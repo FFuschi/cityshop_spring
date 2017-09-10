@@ -5,6 +5,8 @@
  */
 package it.univaq.disim.mobile.cityshop.business;
 
+import it.univaq.disim.mobile.cityshop.business.domain.Brand;
+import it.univaq.disim.mobile.cityshop.business.domain.Categoria;
 import it.univaq.disim.mobile.cityshop.business.domain.Session;
 import it.univaq.disim.mobile.cityshop.business.domain.Negozio;
 import it.univaq.disim.mobile.cityshop.business.domain.Prodotto;
@@ -32,5 +34,17 @@ public interface CityShopService {
     List<Prodotto> getProducts(Negozio store);
     
     Prodotto getProduct(int id);
+    
+    List<Categoria> getUserCategories(String token);
+    
+    List<Categoria> getStoreCategories(int id);
+    
+    Categoria getProductCategory(int id);
+    
+    List<Brand> getUserBrands(String token);
+    
+    List<Brand> getStoreBrands(int id);
+    
+    Brand getProductBrand(int id);
     
 }

@@ -1,8 +1,11 @@
 package it.univaq.disim.mobile.cityshop.web;
 
 import it.univaq.disim.mobile.cityshop.business.CityShopService;
+import it.univaq.disim.mobile.cityshop.business.domain.Brand;
+import it.univaq.disim.mobile.cityshop.business.domain.Categoria;
 import it.univaq.disim.mobile.cityshop.business.domain.Session;
 import it.univaq.disim.mobile.cityshop.business.domain.Utente;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,5 +58,29 @@ public class UtenteController {
         service.updateUser(token, user);
         return Response.DEFAULT_RESPONSE_OK;
     }
+    
+    @PostMapping("/category/{token}")
+    public Response getCategoryUser(@PathVariable String token) {
+        List<Categoria> categories = service.getUserCategories(token);
+        if (categories!= null){
+           Response<List<Categoria>> result = new Response<>(true, Response.DEFAULT_RESPONSE_OK.getMessage());
+            result.setData(categories);
+            return result; 
+        } else {
+            return Response.DEFAULT_RESPONSE_KO;
+        }
+    }
 
+    @PostMapping("/brand/{token}")
+    public Response getBrandUser(@PathVariable String token) {
+        List<Brand> brands = service.getUserBrands(token);
+        if (brands!= null){
+           Response<List<Brand>> result = new Response<>(true, Response.DEFAULT_RESPONSE_OK.getMessage());
+            result.setData(brands);
+            return result; 
+        } else {
+            return Response.DEFAULT_RESPONSE_KO;
+        }
+    }
+    
 }
