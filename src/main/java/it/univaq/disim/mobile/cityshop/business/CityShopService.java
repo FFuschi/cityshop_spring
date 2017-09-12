@@ -35,16 +35,32 @@ public interface CityShopService {
     
     Prodotto getProduct(int id);
     
+    List<Categoria> getCategories();
+    
+    List<Categoria> getAllUserCategories(String token);
+    
     List<Categoria> getUserCategories(String token);
     
     List<Categoria> getStoreCategories(int id);
     
     Categoria getProductCategory(int id);
     
+    void addUserCategory(String token, Categoria category);
+    
+    void removeUserCategory(String token, Categoria category);
+    
+    List<Brand> getBrands();
+    
+    List<Brand> getAllUserBrands(String token);
+    
     List<Brand> getUserBrands(String token);
     
     List<Brand> getStoreBrands(int id);
     
     Brand getProductBrand(int id);
+    
+    void addUserBrand(String token, Brand brand);
+    
+     void removeUserBrand(String token, Brand brand);
     
 }

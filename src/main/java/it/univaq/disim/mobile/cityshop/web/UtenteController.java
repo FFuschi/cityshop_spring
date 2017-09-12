@@ -82,5 +82,28 @@ public class UtenteController {
             return Response.DEFAULT_RESPONSE_KO;
         }
     }
-    
+
+    @PostMapping("/category/all/{token}")
+    public Response getAllCategoryUser(@PathVariable String token) {
+        List<Categoria> categories = service.getAllUserCategories(token);
+        if (categories!= null){
+           Response<List<Categoria>> result = new Response<>(true, Response.DEFAULT_RESPONSE_OK.getMessage());
+            result.setData(categories);
+            return result; 
+        } else {
+            return Response.DEFAULT_RESPONSE_KO;
+        }
+    }
+
+    @PostMapping("/brand/all/{token}")
+    public Response getAllBrandUser(@PathVariable String token) {
+        List<Brand> brands = service.getAllUserBrands(token);
+        if (brands!= null){
+           Response<List<Brand>> result = new Response<>(true, Response.DEFAULT_RESPONSE_OK.getMessage());
+            result.setData(brands);
+            return result; 
+        } else {
+            return Response.DEFAULT_RESPONSE_KO;
+        }
+    }
 }

@@ -20,7 +20,8 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
     @Query("SELECT brands "
             + "FROM Utente user "
             + "JOIN user.brands brands "
-            + "WHERE user.email = :mail"
+            + "WHERE user.email = :mail "
+            + "AND brands.nome != 'notSelected'"
     )
     List<Brand> findForUser(
             @Param("mail") String email
@@ -45,4 +46,13 @@ public interface BrandRepository extends JpaRepository<Brand, Long> {
     Brand findForProduct(
             @Param("id") int id
     );
+    
+    @Query("SELECT brands "
+            + "FROM Brand brands "
+            + "WHERE brands.nome != 'notSelected'"
+    )
+    @Override
+    List<Brand> findAll();
+    
+    Brand findByNome(String nome);
 }

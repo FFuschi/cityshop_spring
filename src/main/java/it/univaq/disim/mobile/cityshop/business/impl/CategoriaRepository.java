@@ -22,7 +22,8 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     @Query("SELECT categories "
             + "FROM Utente user "
             + "JOIN user.categorie categories "
-            + "WHERE user.email = :mail"
+            + "WHERE user.email = :mail "
+            + "AND categories.nome != 'notSelected'"
     )
     List<Categoria> findForUser(
             @Param("mail") String email
@@ -47,4 +48,13 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     Categoria findForProduct(
             @Param("id") int id
     );
+    
+    @Query("SELECT categories "
+            + "FROM Categoria categories "
+            + "WHERE categories.nome != 'notSelected'"
+    )
+    @Override
+    List<Categoria> findAll();
+    
+    Categoria findByNome(String nome);
 }

@@ -7,12 +7,10 @@ import it.univaq.disim.mobile.cityshop.business.domain.Negozio;
 import it.univaq.disim.mobile.cityshop.business.domain.Prodotto;
 import it.univaq.disim.mobile.cityshop.business.domain.Session;
 import it.univaq.disim.mobile.cityshop.business.domain.Utente;
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -135,6 +133,21 @@ public class CityShopServiceImpl implements CityShopService {
     public Prodotto getProduct(int id) {
         return productRepository.findById(id);
     }
+    
+    @Override
+    public List<Categoria> getCategories() {
+        return categoryRepository.findAll();
+    }
+    
+    @Override
+    public List<Categoria> getAllUserCategories(String token) {
+        Session session = sessionRepository.findByToken(token);
+        if (session != null) {
+            List<Categoria> temp = categoryRepository.findForUser(session.getUser().getEmail());
+            return temp;
+        } 
+        return null;
+    }
 
     @Override
     public List<Categoria> getUserCategories(String token) {
@@ -172,6 +185,47 @@ public class CityShopServiceImpl implements CityShopService {
     }
     
     @Override
+    public void addUserCategory(String token, Categoria category) {
+        Session session = sessionRepository.findByToken(token);
+        if (session != null) {
+            Categoria add = categoryRepository.findByNome(category.getNome());
+            if (add != null){
+                Utente user = session.getUser();
+                user.getCategorie().add(add);
+            }
+            
+        }
+    }
+    
+    @Override
+    public void removeUserCategory(String token, Categoria category) {
+        Session session = sessionRepository.findByToken(token);
+        if (session != null) {
+            Categoria add = categoryRepository.findByNome(category.getNome());
+            if (add != null){
+                Utente user = session.getUser();
+                user.getCategorie().remove(add);
+            }
+            
+        }
+    }
+    
+    @Override
+    public List<Brand> getBrands() {
+        return brandRepository.findAll();
+    }
+    
+    @Override
+    public List<Brand> getAllUserBrands(String token) {
+        Session session = sessionRepository.findByToken(token);
+        if (session != null) {
+            List<Brand> temp = brandRepository.findForUser(session.getUser().getEmail());
+            return temp;
+        } 
+        return null;
+    }
+    
+    @Override
     public List<Brand> getUserBrands(String token) {
         Session session = sessionRepository.findByToken(token);
         if (session != null) {
@@ -205,4 +259,31 @@ public class CityShopServiceImpl implements CityShopService {
     public Brand getProductBrand(int id) {
         return brandRepository.findForProduct(id);
     }
+    
+    @Override
+    public void addUserBrand(String token, Brand brand){
+        Session session = sessionRepository.findByToken(token);
+        if (session != null) {
+            Brand add = brandRepository.findByNome(brand.getNome());
+            if(add != null){
+                Utente user = session.getUser();
+                user.getBrands().add(add);
+            }
+            
+        }
+    }
+    
+    @Override
+    public void removeUserBrand(String token, Brand brand){
+        Session session = sessionRepository.findByToken(token);
+        if (session != null) {
+            Brand add = brandRepository.findByNome(brand.getNome());
+            if(add != null){
+                Utente user = session.getUser();
+                user.getBrands().remove(add);
+            }
+            
+        }
+    }
+
 }
