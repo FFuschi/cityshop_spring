@@ -12,6 +12,7 @@ import it.univaq.disim.mobile.cityshop.business.domain.Negozio;
 import it.univaq.disim.mobile.cityshop.business.domain.Prodotto;
 import it.univaq.disim.mobile.cityshop.business.domain.Utente;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -23,7 +24,7 @@ public interface CityShopService {
 
     void logout(String token);
 
-    void createUser(Utente user);
+    void createUser(Utente user, Set<Categoria> categories, Set<Brand> brands);
 
     void updateUser(String token, Utente user);
     

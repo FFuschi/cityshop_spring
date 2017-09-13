@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,8 +49,8 @@ public class UtenteController {
     }
 
     @PostMapping("/users")
-    public Response createUser(@RequestBody Utente user) {
-        service.createUser(user);
+    public Response createUser(@RequestBody RequestWrapperSingUp singup) {
+        service.createUser(singup.getUser(), singup.getCategories(), singup.getBrands());
         return Response.DEFAULT_RESPONSE_OK;
     }
 

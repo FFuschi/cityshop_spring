@@ -59,8 +59,11 @@ public class CityShopServiceImpl implements CityShopService {
     }
 
     @Override
-    public void createUser(Utente user) {
-        userRepository.save(user);
+    public void createUser(Utente user, Set<Categoria> categories, Set<Brand> brands) {
+        Utente newuser = user;
+        newuser.setCategorie(categories);
+        newuser.setBrands(brands);
+        userRepository.save(newuser);
     }
 
     @Override
