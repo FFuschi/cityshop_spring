@@ -26,7 +26,8 @@ public interface NegozioRepository extends JpaRepository<Negozio, Long> {
             + "WHERE store.latitudine BETWEEN :lat1 AND :lat2 "
             + "AND store.longitudine BETWEEN :log1 AND :log2 "
             + "AND product.categoria IN :cat "
-            + "OR product.brand IN :brand"
+            + "OR product.brand IN :brand "
+            + "GROUP BY store"
     )
     List<Negozio> findBy(
             @Param("lat1") float lat_1, 
