@@ -107,4 +107,15 @@ public class UtenteController {
             return Response.DEFAULT_RESPONSE_KO;
         }
     }
+    
+    @PostMapping("/control")
+    public Response controlUser(@RequestBody Utente user) {
+        if(user != null){
+            Response result = new Response<>(true, Response.DEFAULT_RESPONSE_OK.getMessage());
+            result.setData(service.getUser(user.getEmail()));
+            return result; 
+        } else {
+            return Response.DEFAULT_RESPONSE_KO;
+        }
+    }
 }

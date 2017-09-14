@@ -288,5 +288,15 @@ public class CityShopServiceImpl implements CityShopService {
             
         }
     }
+    
+    @Override
+    public boolean getUser(String email){
+        Utente user = userRepository.findByEmail(email);
+        if(user != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

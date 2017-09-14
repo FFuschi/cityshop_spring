@@ -63,5 +63,7 @@ public interface CityShopService {
     void addUserBrand(String token, Brand brand);
     
      void removeUserBrand(String token, Brand brand);
+     
+    public boolean getUser(String email);
     
 }
